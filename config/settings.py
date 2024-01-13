@@ -14,7 +14,7 @@ from pathlib import Path
 from environs import Env
 import os
 import my_config
-
+from django.contrib.messages import constants as messages
 # Env
 env = Env()
 env.read_env()
@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third party
+    'rosetta',
     'crispy_forms',
     'crispy_bootstrap4',
     'allauth',
@@ -53,6 +54,7 @@ INSTALLED_APPS = [
     'accounts',
     'pages',
     'products.apps.ProductsConfig',
+    'cart.apps.CartConfig',
 ]
 
 SITE_ID = 1
@@ -145,9 +147,16 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa'
+
+LANGUAGES = (('en', 'English'), ('fa', 'Persian'), )
+
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
+
+USE_L10N = True
 
 USE_TZ = True
 
@@ -179,3 +188,8 @@ ACCOUNT_UNIQUE_EMAIL = True
 # crispy
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 CRISPY_ALLOWED_TEMPLATE_PACK = 'bootstrap4'
+
+# for messages
+MESSAGE_TAGS = {
+ messages.ERROR: 'danger',
+}

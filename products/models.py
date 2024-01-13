@@ -1,6 +1,7 @@
 from django.db import models
 from django.shortcuts import reverse
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext as _
 
 
 class Product(models.Model):
@@ -18,6 +19,11 @@ class Product(models.Model):
         return reverse('product_detail', kwargs={'pk': self.pk})
 
 
+class ActiveCommentsManager(models.Manager):
+    def get_queryset(self):
+        return super(ActiveCommentsManager, self).get_quryset().filter(active=True)
+
+
 class Comment(models.Model):
     PRODUCT_STARS_CHOICES = [
         ('1', 'Very Bad'),
@@ -28,12 +34,14 @@ class Comment(models.Model):
     ]
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments', )
     auther = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments', )
-    body = models.TextField()
-    stars = models.CharField(max_length=10, choices=PRODUCT_STARS_CHOICES)
+    body = models.TextField(verbose_name=_('Comment Text'))
+    stars = models.CharField(max_length=10, choices=PRODUCT_STARS_CHOICES, verbose_name=_('What is your score ?'))
     active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
+    # Manager
+    objects = models.Manager()
+    active_comments_manager = ActiveCommentsManager()
 
     def get_absolute_url(self):
         return reverse('product_detail', args=[self.product.id])
-
