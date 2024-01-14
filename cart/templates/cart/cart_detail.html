@@ -5,6 +5,8 @@
 {% load i18n %}
 {% block content %}
     <!-- Main Content Wrapper Start -->
+    {%  trans 'Cart' as x %}
+{% include 'top_header.html' with header_name=x %}
         <div class="main-content-wrapper">
             <div class="page-content-inner ptb--80">
                 <div class="container">
