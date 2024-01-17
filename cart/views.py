@@ -31,7 +31,7 @@ def cart_add_view(request, product_id):
         cleaned_data = form.cleaned_data
         quantity = cleaned_data["quantity"]
         cart.add(product, quantity, replace_current_quantity=cleaned_data["inplace"])
-    return redirect('cart:cart_detail')
+    return redirect('product_detail', pk=product_id)
 
 
 def cart_remove_view(request, product_id):

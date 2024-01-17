@@ -2,3 +2,5 @@ venv/
 .idea/
 *.pyc
 __pycache__/
+.env
+my_config.py

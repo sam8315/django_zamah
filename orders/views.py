@@ -15,7 +15,7 @@ def order_create_view(request):
         messages.warning(request, 'Your cart is empty')
         return redirect('product_list')
     if request.method == 'POST':
-        order_form = OrderForm(request.POST,)
+        order_form = OrderForm(request.POST, )
         if order_form.is_valid():
             order_obj = order_form.save(commit=False)
             order_obj.user = request.user
@@ -34,5 +34,8 @@ def order_create_view(request):
             request.user.last_name = order_obj.user.last_name
             request.user.save()
 
-    return render(request, 'orders/order_create.html', context={'form': order_form, })
+            # redirect user for payment
+            request.session['order_id'] = order_obj.id
+            return redirect('payment:payment_process')
 
+    return render(request, 'orders/order_create.html', context={'form': order_form, })
